@@ -1,0 +1,47 @@
+cqlsh:Students> create table project_details(project_id int, project_name text, stud_name text, rating double, duration int, PRIMARY KEY(project_id, project_name));
+cqlsh:Students> begin batch
+            ... insert into project_details(project_id, project_name, stud_name, rating, duration)values(2,'Data science', 'Akanksha', 4, 8);
+            ... insert into project_details(project_id, project_name, stud_name, rating, duration)values(5,'Machine Learning', 'Akash', 4.2, 12);
+            ... insert into project_details(project_id, project_name, stud_name, rating, duration)values(7,'Artificial Intelligence', 'Ankita', 3.2, 10);
+            ... insert into project_details(project_id, project_name, stud_name, rating, duration)values(4,'Cyber security', 'Anjanay', 4.8, 16);
+            ... apply batch;
+cqlsh:Students> select * from project_details;
+
+ project_id | project_name            | duration | rating | stud_name
+------------+-------------------------+----------+--------+-----------
+          5 |        Machine Learning |       12 |    4.2 |     Akash
+          2 |            Data science |        8 |      4 |  Akanksha
+          4 |          Cyber security |       16 |    4.8 |   Anjanay
+          7 | Artificial Intelligence |       10 |    3.2 |    Ankita
+
+(4 rows)
+cqlsh:Students> create index on project_details(stud_name);
+cqlsh:Students> select * from project_details where project_id = 4;
+
+ project_id | project_name   | duration | rating | stud_name
+------------+----------------+----------+--------+-----------
+          4 | Cyber security |       16 |    4.8 |   Anjanay
+
+(1 rows)
+cqlsh:Students> update project_details SET stud_name = 'Rahul' where project_id = 7 and project_name = 'Artificial Intelligence';
+cqlsh:Students> select * from project_details;
+
+ project_id | project_name            | duration | rating | stud_name
+------------+-------------------------+----------+--------+-----------
+          5 |        Machine Learning |       12 |    4.2 |     Akash
+          2 |            Data science |        8 |      4 |  Akanksha
+          4 |          Cyber security |       16 |    4.8 |   Anjanay
+          7 | Artificial Intelligence |       10 |    3.2 |     Rahul
+
+(4 rows)
+cqlsh:Students> delete from project_details where project_id = 4 and project_name = 'Cyber security';
+cqlsh:Students> select * from project_details;
+
+ project_id | project_name            | duration | rating | stud_name
+------------+-------------------------+----------+--------+-----------
+          5 |        Machine Learning |       12 |    4.2 |     Akash
+          2 |            Data science |        8 |      4 |  Akanksha
+          7 | Artificial Intelligence |       10 |    3.2 |     Rahul
+
+(3 rows)
+cqlsh:Students> 
